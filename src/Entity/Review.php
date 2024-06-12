@@ -2,13 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Traits\TimestampableEntity;
+use App\Repository\ReviewRepository;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+
 class Review
 {
+    use TimestampableEntity;
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -19,6 +25,13 @@ class Review
 
     #[ORM\Column]
     private ?int $review = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    private ?Customer $customer = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Game $game = null;
 
     public function getId(): ?int
     {
@@ -45,6 +58,30 @@ class Review
     public function setReview(int $review): static
     {
         $this->review = $review;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getGame(): ?Game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?Game $game): static
+    {
+        $this->game = $game;
 
         return $this;
     }

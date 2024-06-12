@@ -10,11 +10,12 @@
 
 		{% block javascripts %}
 			{% block importmap %}
-				{{ importmap('app') }}
+				{{ importmap('admin') }}
 			{% endblock %}
 		{% endblock %}
 	</head>
 	<body>
-		{% block body %}{% endblock %}
-	</body>
-</html>
+		<main class="container-fluid"> {% block body %}{% endblock %}
+			</main>
+		</body>
+	</html>

@@ -19,6 +19,13 @@ class GameImage
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
+    #[ORM\ManyToOne(inversedBy: 'gameImages')]
+    private ?Game $game_id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'gameImages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Game $game = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +51,30 @@ class GameImage
     public function setFile(string $file): static
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    public function getGameId(): ?Game
+    {
+        return $this->game_id;
+    }
+
+    public function setGameId(?Game $game_id): static
+    {
+        $this->game_id = $game_id;
+
+        return $this;
+    }
+
+    public function getGame(): ?Game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?Game $game): static
+    {
+        $this->game = $game;
 
         return $this;
     }

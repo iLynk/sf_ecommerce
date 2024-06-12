@@ -3,11 +3,22 @@
 namespace App\Entity;
 
 use App\Repository\GameRepository;
+use App\Traits\SlugableEntity;
+use App\Traits\TimestampableEntity;
+use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+
 class Game
 {
+
+    use TimestampableEntity;
+    use SlugableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,6 +35,41 @@ class Game
 
     #[ORM\Column]
     private ?int $stock = null;
+    /**
+     * @var Collection<int, GameCategory>
+     */
+    #[ORM\ManyToMany(targetEntity: GameCategory::class, inversedBy: 'games')]
+    private Collection $category;
+
+    /**
+     * @var Collection<int, GameImage>
+     */
+    #[ORM\OneToMany(targetEntity: GameImage::class, mappedBy: 'game', orphanRemoval: true)]
+    private Collection $gameImages;
+
+    /**
+     * @var Collection<int, Review>
+     */
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'game', orphanRemoval: true)]
+    private Collection $reviews;
+
+    /**
+     * @var Collection<int, OrderLine>
+     */
+    #[ORM\OneToMany(targetEntity: OrderLine::class, mappedBy: 'game')]
+    private Collection $orderLines;
+
+    #[ORM\ManyToOne(inversedBy: 'games')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tva $tva = null;
+
+    public function __construct()
+    {
+        $this->category = new ArrayCollection();
+        $this->gameImages = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
+        $this->orderLines = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,5 +122,136 @@ class Game
         $this->stock = $stock;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, GameCategory>
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(GameCategory $category): static
+    {
+        if (!$this->category->contains($category)) {
+            $this->category->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(GameCategory $category): static
+    {
+        $this->category->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GameImage>
+     */
+    public function getGameImages(): Collection
+    {
+        return $this->gameImages;
+    }
+
+    public function addGameImage(GameImage $gameImage): static
+    {
+        if (!$this->gameImages->contains($gameImage)) {
+            $this->gameImages->add($gameImage);
+            $gameImage->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameImage(GameImage $gameImage): static
+    {
+        if ($this->gameImages->removeElement($gameImage)) {
+            // set the owning side to null (unless already changed)
+            if ($gameImage->getGame() === $this) {
+                $gameImage->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): static
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): static
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getGame() === $this) {
+                $review->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderLine>
+     */
+    public function getOrderLines(): Collection
+    {
+        return $this->orderLines;
+    }
+
+    public function addOrderLine(OrderLine $orderLine): static
+    {
+        if (!$this->orderLines->contains($orderLine)) {
+            $this->orderLines->add($orderLine);
+            $orderLine->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderLine(OrderLine $orderLine): static
+    {
+        if ($this->orderLines->removeElement($orderLine)) {
+            // set the owning side to null (unless already changed)
+            if ($orderLine->getGame() === $this) {
+                $orderLine->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTva(): ?Tva
+    {
+        return $this->tva;
+    }
+
+    public function setTva(?Tva $tva): static
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
+    private function getSlug()
+    {
+        return $this->getName();
     }
 }
