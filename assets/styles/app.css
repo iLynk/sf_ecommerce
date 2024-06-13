@@ -2,3 +2,34 @@ body {
   background-color: rgb(151, 100, 192);
   color: white;
 }
+
+img {
+  height: 250px;
+  width: 250px;
+}
+
+.g-name {
+  color: pink;
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+div.game {
+  border: 2px solid white;
+  padding: 20px;
+  margin: 10px;
+}
+
+div a.link {
+  background-color: pink;
+  color: violet;
+  border: 2px solid white;
+  font-size: large;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 20px;
+  display: block;
+  width: fit-content;
+}

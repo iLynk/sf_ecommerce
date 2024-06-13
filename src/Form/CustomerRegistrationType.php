@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Customer;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +15,7 @@ class CustomerRegistrationType extends AbstractType
     {
         $builder
             ->add('lastname', TextType::class, [
-                'label' => "Votre nom de famille"
+                'label' => "Lastname"
             ])
             ->add('firstname')
             ->add('phone')

@@ -48,7 +48,7 @@ class RegistrationFormType extends AbstractType
                 'first_options'  => ['label' => 'user.password'],
                 'second_options' => ['label' => 'user.repeatPassword'],
             ])
-            ->add('customer', CustomerRegistrationType::class, []);
+            ->add('customer', CustomerRegistrationType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

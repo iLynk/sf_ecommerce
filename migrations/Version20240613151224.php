@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240611152120 extends AbstractMigration
+final class Version20240613151224 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -39,8 +39,7 @@ final class Version20240611152120 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_1193CB3F9395C3F3 ON customer_address (customer_id)');
         $this->addSql('COMMENT ON COLUMN customer_address.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN customer_address.modified_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE game (id INT NOT NULL, tva_id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, price DOUBLE PRECISION NOT NULL, stock INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_232B318C4D79775F ON game (tva_id)');
+        $this->addSql('CREATE TABLE game (id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, price DOUBLE PRECISION NOT NULL, stock INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN game.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN game.modified_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE game_game_category (game_id INT NOT NULL, game_category_id INT NOT NULL, PRIMARY KEY(game_id, game_category_id))');
@@ -56,7 +55,7 @@ final class Version20240611152120 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_F52993989395C3F3 ON "order" (customer_id)');
         $this->addSql('COMMENT ON COLUMN "order".created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN "order".modified_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE order_line (id INT NOT NULL, order_info_id INT NOT NULL, game_id INT NOT NULL, quantity INT NOT NULL, price DOUBLE PRECISION NOT NULL, tva DOUBLE PRECISION NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE order_line (id INT NOT NULL, order_info_id INT NOT NULL, game_id INT NOT NULL, quantity INT NOT NULL, price DOUBLE PRECISION NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9CE58EE1ABF168B3 ON order_line (order_info_id)');
         $this->addSql('CREATE INDEX IDX_9CE58EE1E48FD905 ON order_line (game_id)');
         $this->addSql('COMMENT ON COLUMN order_line.created_at IS \'(DC2Type:datetime_immutable)\'');
@@ -72,7 +71,7 @@ final class Version20240611152120 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN review.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN review.modified_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE tva (id INT NOT NULL, name VARCHAR(100) NOT NULL, value DOUBLE PRECISION NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, customer_id INT DEFAULT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, customer_id INT DEFAULT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified BOOLEAN NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, modified_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D6499395C3F3 ON "user" (customer_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL ON "user" (email)');
         $this->addSql('COMMENT ON COLUMN "user".created_at IS \'(DC2Type:datetime_immutable)\'');
@@ -93,7 +92,6 @@ final class Version20240611152120 extends AbstractMigration
         $this->addSql('DROP TRIGGER IF EXISTS notify_trigger ON messenger_messages;');
         $this->addSql('CREATE TRIGGER notify_trigger AFTER INSERT OR UPDATE ON messenger_messages FOR EACH ROW EXECUTE PROCEDURE notify_messenger_messages();');
         $this->addSql('ALTER TABLE customer_address ADD CONSTRAINT FK_1193CB3F9395C3F3 FOREIGN KEY (customer_id) REFERENCES customer (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C4D79775F FOREIGN KEY (tva_id) REFERENCES tva (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE game_game_category ADD CONSTRAINT FK_7EC7A8CE48FD905 FOREIGN KEY (game_id) REFERENCES game (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE game_game_category ADD CONSTRAINT FK_7EC7A8CCC13DFE0 FOREIGN KEY (game_category_id) REFERENCES game_category (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE game_image ADD CONSTRAINT FK_F70E7DD04D77E7D8 FOREIGN KEY (game_id_id) REFERENCES game (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -124,7 +122,6 @@ final class Version20240611152120 extends AbstractMigration
         $this->addSql('DROP SEQUENCE tva_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('ALTER TABLE customer_address DROP CONSTRAINT FK_1193CB3F9395C3F3');
-        $this->addSql('ALTER TABLE game DROP CONSTRAINT FK_232B318C4D79775F');
         $this->addSql('ALTER TABLE game_game_category DROP CONSTRAINT FK_7EC7A8CE48FD905');
         $this->addSql('ALTER TABLE game_game_category DROP CONSTRAINT FK_7EC7A8CCC13DFE0');
         $this->addSql('ALTER TABLE game_image DROP CONSTRAINT FK_F70E7DD04D77E7D8');

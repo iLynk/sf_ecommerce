@@ -12,7 +12,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 trait SlugableEntity
 {
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    public ?string $slug = null;
 
     /**
      * Compute slug with use of method getSlugField()
@@ -22,7 +22,7 @@ trait SlugableEntity
         $slugger = new AsciiSlugger();
 
         if (!$this->slug || '-' === $this->slug) {
-            $this->slug = (string) $slugger->slug($this->getSlugField())->lower();
+            $this->slug = (string) $slugger->slug($this->getName())->lower();
         }
     }
 

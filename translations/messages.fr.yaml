@@ -1,0 +1,16 @@
+# PAGE REGISTER
+user:
+  password: Mot de passe
+  repeatPassword: Répéter le mot de passe
+Agree terms: Conditions d'utilisations
+Lastname: Nom de famille
+Firstname: Prénom
+Phone: Tél
+Birthdate at: Votre date de naissance
+Email: Email
+
+Hello World: Bonjour le monde
+page:
+  h1: Bienvenue sur la page d'accueil
+  p1: Ceci est un test pour la traduction
+  button: Voir le détail !

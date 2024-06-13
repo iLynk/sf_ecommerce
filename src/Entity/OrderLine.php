@@ -25,8 +25,6 @@ class OrderLine
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column]
-    private ?float $tva = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderLines')]
     #[ORM\JoinColumn(nullable: false)]
@@ -61,18 +59,6 @@ class OrderLine
     public function setPrice(float $price): static
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getTva(): ?float
-    {
-        return $this->tva;
-    }
-
-    public function setTva(float $tva): static
-    {
-        $this->tva = $tva;
 
         return $this;
     }

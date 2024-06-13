@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\GameRepository;
 use App\Traits\SlugableEntity;
 use App\Traits\TimestampableEntity;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -58,10 +57,6 @@ class Game
      */
     #[ORM\OneToMany(targetEntity: OrderLine::class, mappedBy: 'game')]
     private Collection $orderLines;
-
-    #[ORM\ManyToOne(inversedBy: 'games')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Tva $tva = null;
 
     public function __construct()
     {
@@ -234,18 +229,6 @@ class Game
                 $orderLine->setGame(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getTva(): ?Tva
-    {
-        return $this->tva;
-    }
-
-    public function setTva(?Tva $tva): static
-    {
-        $this->tva = $tva;
 
         return $this;
     }
