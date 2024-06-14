@@ -133,6 +133,9 @@ cloner le github
     # Cloner l'application
     git clone https://github.com/iLynk/sf_ecommerce.git
 
+    # Installer les dépendances avec composer
+    composer install
+
     # Création de la base de donnée
     php bin/console d:d:c
 
@@ -190,9 +193,9 @@ cloner le github
   (lien vers la docSymfony : https://symfony.com/doc/current/security.html#authentication-events). 
   Lorsque cet événement est déclenché, la méthode onCheckPassport est lancée et vient
   vérifier si l'utilisateur en train de se connecter possède bien une adresse
-  mail vérifiée. Pour cela, on utilise la méthode de notre entité User "isVerified()"
-  qui nous retourne la propriété $isVerified, qui passe à true lorsque l'email
-  de l'utilisateur est vérifié. Deux suites possibles :
+  mail vérifiée. Pour cela, on utilise la méthode de notre entité User
+  "isVerified()" qui nous retourne la propriété $isVerified, qui passe à true
+  lorsque l'email de l'utilisateur est vérifié. Deux suites possibles :
 </p>
 <ol>
   <li>Oui, l'utilisateur est vérifié, c'est cool, on ne fait rien.</li>
