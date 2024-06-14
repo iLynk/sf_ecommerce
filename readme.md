@@ -126,8 +126,6 @@ erDiagram
 
 # INSTALLATION
 
-cloner le github
-
 ```bash
 
     # Cloner l'application
@@ -159,9 +157,8 @@ cloner le github
   MailHog afin d'intercepter les mails envoyés depuis notre application. Mais
   comment ça marche derrière ? Eh bien, c'est "tout" simple. Dans notre
   controller, sur la route /register, après avoir enregistré (flush()) le nouvel
-  utilisateur en base de données, une méthode
-  $this->emailVerifier->sendEmailConfirmation est appelée. Cette méthode prend
-  plusieurs paramètres, qui sont au final les éléments utiles à la construction
+  utilisateur en base de données, une méthode $this->emailVerifier->sendEmailConfirmation est appelée. 
+  Cette méthode prend plusieurs paramètres, qui sont au final les éléments utiles à la construction
   de notre mail. Cette méthode provient de notre classe "EmailVerifier", qui
   possède deux méthodes :
 </p>
